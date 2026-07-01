@@ -5,9 +5,15 @@ from prompts import SYSTEM_PROMPT, USER_PROMPT
 
 load_dotenv()
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = OpenAI(
+    api_key=os.getenv("OPENROUTER_API_KEY"),
+    base_url="https://openrouter.ai/api/v1"
+)
 
-MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+MODEL = os.getenv(
+    "OPENROUTER_MODEL",
+    "deepseek/deepseek-chat-v3-0324:free"
+)
 
 
 def generate_answer(question: str, context: str) -> str:
@@ -20,8 +26,14 @@ def generate_answer(question: str, context: str) -> str:
         model=MODEL,
         temperature=0.2,
         messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": prompt}
+            {
+                "role": "system",
+                "content": SYSTEM_PROMPT
+            },
+            {
+                "role": "user",
+                "content": prompt
+            }
         ]
     )
 
